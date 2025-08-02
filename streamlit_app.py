@@ -1,3 +1,4 @@
+
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -19,7 +20,7 @@ from imblearn.pipeline import Pipeline
 # -------------------
 # Sidebar - 사용자 선택
 # -------------------
-st.sidebar.title("🔧 설정")
+st.sidebar.title("설정")
 selected_model = st.sidebar.selectbox("모델 선택", ["LogisticRegression", "RandomForest"])
 selected_sampler = st.sidebar.selectbox("샘플링 기법 선택", ["SMOTE", "RandomOverSampler", "RandomUnderSampler", "TomekLinks", "NearMiss"])
 
@@ -29,11 +30,9 @@ selected_sampler = st.sidebar.selectbox("샘플링 기법 선택", ["SMOTE", "Ra
 X, y = make_classification(n_samples=1000, n_features=2, n_informative=2, 
                            n_redundant=0, n_clusters_per_class=1,
                            weights=[0.9, 0.1], flip_y=0, random_state=42)
-
-
 X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, test_size=0.3, random_state=42)
 
-st.title("📊 불균형 데이터 분류 - Streamlit 앱")
+st.title("불균형 데이터 분류 - Streamlit 앱")
 st.write("Train 클래스 분포:", dict(Counter(y_train)))
 
 # -------------------
@@ -64,10 +63,14 @@ ax1.set_title("Before Sampling")
 st.pyplot(fig1)
 
 # -------------------
-# 샘플링 적용
+# 데이터 타입 보정
 # -------------------
 X_train = pd.DataFrame(X_train)
-y_train = pd.Series(y_train)
+y_train = pd.Series(y_train).astype(int).ravel()
+
+# -------------------
+# 샘플링 적용
+# -------------------
 X_resampled, y_resampled = sampler.fit_resample(X_train, y_train)
 st.write("Resampled 클래스 분포:", dict(Counter(y_resampled)))
 
