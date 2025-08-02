@@ -65,7 +65,7 @@ st.pyplot(fig1)
 # -------------------
 # 데이터 타입 보정
 # -------------------
-X_train = pd.DataFrame(X_train)
+X_train = pd.DataFrame(X_train, columns=["feature1", "feature2"])
 y_train = pd.Series(y_train).astype(int).ravel()
 
 # -------------------
