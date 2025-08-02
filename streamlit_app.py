@@ -66,8 +66,8 @@ st.pyplot(fig1)
 # -------------------
 # 데이터 타입 보정 (Pandas → ndarray로 변환)
 # -------------------
-X_train = np.asarray(X_train)
-y_train = np.asarray(y_train).astype(int).ravel()
+X_train = np.asarray(X_train).astype(np.float32)
+y_train = np.asarray(y_train).astype(np.int64).ravel()
 
 # -------------------
 # 샘플링 적용
