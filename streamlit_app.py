@@ -1,4 +1,5 @@
 
+
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -33,7 +34,7 @@ X, y = make_classification(n_samples=1000, n_features=2, n_informative=2,
 X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, test_size=0.3, random_state=42)
 
 st.title("불균형 데이터 분류 - Streamlit 앱")
-st.write("Train 클래스 분포:", dict(Counter(y_train)))
+st.write("Train 클래스 분포:", {int(k): v for k, v in Counter(y_train).items()})
 
 # -------------------
 # 샘플러 및 모델 정의
@@ -63,16 +64,16 @@ ax1.set_title("Before Sampling")
 st.pyplot(fig1)
 
 # -------------------
-# 데이터 타입 보정
+# 데이터 타입 보정 (Pandas → ndarray로 변환)
 # -------------------
-X_train = pd.DataFrame(X_train, columns=["feature1", "feature2"])
-y_train = pd.Series(y_train).astype(int).ravel()
+X_train = np.asarray(X_train)
+y_train = np.asarray(y_train).astype(int).ravel()
 
 # -------------------
 # 샘플링 적용
 # -------------------
 X_resampled, y_resampled = sampler.fit_resample(X_train, y_train)
-st.write("Resampled 클래스 분포:", dict(Counter(y_resampled)))
+st.write("Resampled 클래스 분포:", {int(k): v for k, v in Counter(y_resampled).items()})
 
 # -------------------
 # 샘플링 후 데이터 시각화
